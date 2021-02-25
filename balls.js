@@ -20,11 +20,17 @@ const mouse = {
 canvas.addEventListener('click', event => {
   mouse.x = event.x
   mouse.y = event.y
+  for (i = 0; i < 10; i++) {
+    balls.push(new Ball())
+  }
 })
 
 canvas.addEventListener('mousemove', event => {
   mouse.x = event.x
   mouse.y = event.y
+  for (i = 0; i < 3; i++) {
+    balls.push(new Ball())
+  }
 })
 
 const getRandomNum = () => Math.round(Math.random() * 255)
@@ -32,11 +38,11 @@ const getRandomNum = () => Math.round(Math.random() * 255)
 const getRandomColor = () => `rgb(${getRandomNum()}, ${getRandomNum()}, ${getRandomNum()})`
 class Ball {
   constructor() {
-    // this.x = mouse.x;
-    // this.y = mouse.y;
-    this.x = getRandomNum();
-    this.y = getRandomNum();
-    this.radius = getRandomNum();
+    this.x = mouse.x;
+    this.y = mouse.y;
+    // this.x = getRandomNum();
+    // this.y = getRandomNum();
+    this.radius = Math.random() * 3;
     this.color = getRandomColor();
     this.verticalSpeed = Math.random() * 3 - 1.5;
     this.horizontalSpeed = Math.random() * 3 - 1.5;
@@ -46,6 +52,10 @@ class Ball {
     this.x += this.verticalSpeed;
     this.y += this.horizontalSpeed;
     //makes 2D vector
+    if (this.radius > 100 && this.radius > 10) {
+      this.radius -= .5
+    }
+    
   }
 
   // move() {
@@ -63,22 +73,28 @@ class Ball {
   }
 }
 
-const init = () => {
-  for (i = 0; i < 10; i++) {
-    balls.push(new Ball())
-  }
-}
+// const init = () => {
+//   for (i = 0; i < 10; i++) {
+//     balls.push(new Ball())
+//   }
+// }
 
 const drawBalls = () => {
-  
+  balls.forEach(ball => {
+    ball.update()
+    ball.draw()
+  })
+
 }
 
-init()
+// init()
 console.log(balls)
 
   const animate = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
+    //ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    drawBalls()
     requestAnimationFrame(animate)
   }
 
