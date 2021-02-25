@@ -2,6 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let t = performance.now();
 let balls = [];
+let hue = 0
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -28,7 +29,7 @@ canvas.addEventListener('click', event => {
 canvas.addEventListener('mousemove', event => {
   mouse.x = event.x
   mouse.y = event.y
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < 5; i++) {
     balls.push(new Ball())
   }
 })
@@ -43,7 +44,8 @@ class Ball {
     // this.x = getRandomNum();
     // this.y = getRandomNum();
     this.radius = Math.random() * 3;
-    this.color = getRandomColor();
+    this.color = `hsl(${hue}, 100%, 50%)`
+    //getRandomColor();
     this.verticalSpeed = Math.random() * 3 - 1.5;
     this.horizontalSpeed = Math.random() * 3 - 1.5;
   }
@@ -92,10 +94,11 @@ console.log(balls)
 
   const animate = () => {
     //ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     drawBalls()
     requestAnimationFrame(animate)
+    hue++
   }
 
   animate()
